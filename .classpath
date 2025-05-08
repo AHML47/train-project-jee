@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="D:/iset/2eme/S2/JEE/project/project/WebContent/WEB-INF/lib/org.json.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

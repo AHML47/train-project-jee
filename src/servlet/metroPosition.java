@@ -13,20 +13,21 @@ import model.MetroStation;
 import model.MetroTrain;
 import service.MetroService;
 
-import org.json.JSONArray;
-import org.json.JSONObject;import org.json.*;
+import org.json.*;
 /**
  * Servlet implementation class metroPosition
  */
 @WebServlet("/metroPosition")
 public class metroPosition extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	MetroService MS;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public metroPosition() {
         super();
+        MS =MetroService.getInstance();
         // TODO Auto-generated constructor stub
     }
 
@@ -44,20 +45,27 @@ public class metroPosition extends HttpServlet {
         // Otherwise, send train positions
         
         // Simulate train movements for demo purposes
-        MetroService.getInstance().simulateTrainMovements();
+        
+        MS.simulateTrainMovements();
         
         // Get all trains
-        List<MetroTrain> trains = MetroService.getInstance().getAllTrains();
+        List<MetroTrain> trains = MS.getAllTrains();
         
         // Convert to JSON
         JSONArray jsonTrains = new JSONArray();
         for (MetroTrain train : trains) {
             JSONObject jsonTrain = new JSONObject();
-            jsonTrain.put("id", train.getId());
-            jsonTrain.put("line", train.getLine());
-            jsonTrain.put("lat", train.getCurrentLat());
-            jsonTrain.put("lng", train.getCurrentLng());
-            jsonTrain.put("inMotion", train.isInMotion());
+            try {
+				jsonTrain.put("id", train.getId());
+				jsonTrain.put("line", train.getLine());
+	            jsonTrain.put("lat", train.getCurrentLat());
+	            jsonTrain.put("lng", train.getCurrentLng());
+	            jsonTrain.put("inMotion", train.isInMotion());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
             jsonTrains.put(jsonTrain);
         }
         
@@ -65,7 +73,7 @@ public class metroPosition extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.print(jsonTrains.toJSONString());
+            out.print(jsonTrains.toString());
         }
 	}
 
@@ -84,10 +92,17 @@ public class metroPosition extends HttpServlet {
         JSONArray jsonStations = new JSONArray();
         for (MetroStation station : stations) {
             JSONObject jsonStation = new JSONObject();
-            jsonStation.put("id", station.getId());
-            jsonStation.put("name", station.getName());
-            jsonStation.put("lat", station.getLat());
-            jsonStation.put("lng", station.getLng());
+            
+            try {
+            	jsonStation.put("id", station.getId());
+				jsonStation.put("name", station.getName());
+				jsonStation.put("lat", station.getLat());
+	            jsonStation.put("lng", station.getLng());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
             jsonStations.put(jsonStation);
         }
         
@@ -95,7 +110,7 @@ public class metroPosition extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.print(jsonStations.toJSONString());
+            out.print(jsonStations.toString());
         }
     }
 
