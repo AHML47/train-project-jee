@@ -54,7 +54,9 @@ public class UserDAO {
                     Date dobDate = rs.getDate("dob");
                     if (dobDate != null) u.setDob(dobDate.toLocalDate());
                     u.setCardNumber(rs.getString("card_number"));
-                    // mot de passe non remis en objet pour raisons de s�curit�
+                    
+                    
+                    
                     return u;
                 }
             }
@@ -63,12 +65,44 @@ public class UserDAO {
         }
         return null;
     }
+    
 
     /**
      * Alias pour loginUser(), afin de respecter l�appel findByEmailAndPassword()
      */
     public static User findByEmailAndPassword(String email, String password) {
         return loginUser(email, password);
+    }
+    public static void setUserLogedin()
+    public static User getLogedInUser() {
+    	String sql = "SELECT * FROM logedinuser";
+    	try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+               try (ResultSet rs = pstmt.executeQuery()) {
+                   if (rs.next()) {
+                       User u = new User();
+                       u.setId(rs.getInt("id"));
+                       u.setNom(rs.getString("nom"));
+                       u.setPrenom(rs.getString("prenom"));
+                       u.setEmail(rs.getString("email"));
+                       u.setPassword(rs.getString("password"));
+                       u.setTel(rs.getString("tel"));
+                       u.setCin(rs.getString("cin"));
+                       u.setDirection(rs.getString("direction"));
+                       u.setAdresse(rs.getString("adresse"));
+                       Date dobDate = rs.getDate("dob");
+                       if (dobDate != null) u.setDob(dobDate.toLocalDate());
+                       u.setCardNumber(rs.getString("card_number"));
+                       
+                       return u;
+                   }
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+           return null;
+    	
+    	
     }
 
  

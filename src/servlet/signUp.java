@@ -86,6 +86,7 @@ RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.js
 
 	        
 	        UserDAO.registerUser(user);
+	        UserDAO.loginUser(user.getEmail(), user.getPassword());
 
 
 	    } catch (Exception e) {
