@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MetroProject" default="deploy" basedir=".">
+    <property name="src" value="src"/>
+    <property name="build" value="build"/>
+    <property name="webcontent" value="WebContent"/>
+    <property name="lib" value="${webcontent}/WEB-INF/lib"/>
+    <property name="classes" value="${webcontent}/WEB-INF/classes"/>
+    <property name="tomcat.home" value="C:/Program Files/Apache Software Foundation/Tomcat 9.0"/>
+    <property name="deploy.dir" value="${tomcat.home}/webapps"/>
+    
+    <path id="compile.classpath">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${tomcat.home}/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete dir="${classes}"/>
+    </target>
+    
+    <target name="init">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <mkdir dir="${classes}/model"/>
+        <mkdir dir="${classes}/servlet"/>
+        <mkdir dir="${classes}/dao"/>
+        <mkdir dir="${classes}/util"/>
+    </target>
+    
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${classes}" debug="true" debuglevel="lines,vars,source" includeantruntime="false">
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+    
+    <target name="war" depends="compile">
+        <war destfile="${build}/metro.war" webxml="${webcontent}/WEB-INF/web.xml">
+            <fileset dir="${webcontent}">
+                <exclude name="WEB-INF/web.xml"/>
+            </fileset>
+            <classes dir="${classes}"/>
+            <lib dir="${lib}"/>
+        </war>
+    </target>
+	<servlet>
+	  <servlet-name>SignupServlet</servlet-name>
+	  <servlet-class>servlet.SignupServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>SignupServlet</servlet-name>
+	  <url-pattern>/signup</url-pattern>
+	</servlet-mapping>
+	<dependency>
+	  <groupId>javax.servlet.jsp</groupId>
+	  <artifactId>javax.servlet.jsp-api</artifactId>
+	  <version>2.3.3</version>
+	  <scope>provided</scope>
+	</dependency>
+	<dependency>
+	  <groupId>javax.servlet</groupId>
+	  <artifactId>javax.servlet-api</artifactId>
+	  <version>4.0.1</version>
+	  <scope>provided</scope>
+	</dependency>
+    
+    <target name="deploy" depends="war">
+        <copy file="${build}/metro.war" todir="${deploy.dir}"/>
+        <echo message="Project deployed to ${deploy.dir}"/>
+    </target>
+</project> 
