@@ -23,7 +23,7 @@ function latLngToPixel(lat, lng) {
 // Initialize the map and stations
 function initMap() {
     // Load stations data and create markers
-    fetch('metroPosition?type=stations')
+   /* fetch('metroPosition?type=stations')
         .then(response => response.json())
         .then(stations => {
             const mapContainer = document.getElementById('map-container');
@@ -60,7 +60,7 @@ function initMap() {
             updateTrainPositions();
         })
         .catch(error => console.error('Error loading stations:', error));
-}
+*/}
 
 // Update train positions on the map
 function updateTrainPositions() {

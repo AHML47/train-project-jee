@@ -39,7 +39,7 @@
         
         <div class="controls">
             <button id="refresh-btn" onclick="updateTrainPositions()">Refresh Positions</button>
-            <button class="login-btn" onclick="window.location.href='carteutilisateur.jsp'">Carte d'Identification</button>
+            <a href="signUp"><button class="login-btn">Carte d'Identification</button></a>
         </div>
     </div>
     

@@ -33,7 +33,9 @@ public class signUp extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.jsp");
+		
+		dispatcher.forward(request, response);
 	}
 
 	/**
@@ -43,7 +45,8 @@ public class signUp extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 
-	  
+		RequestDispatcher dispatcher = 
+		        request.getRequestDispatcher("metroInterfaceS");
 	    String nom         = request.getParameter("nom");
 	    String prenom      = request.getParameter("prenom");
 	    String email       = request.getParameter("email");
@@ -56,8 +59,7 @@ public class signUp extends HttpServlet {
 	    String password    = request.getParameter("password");
 
 	  
-	    RequestDispatcher dispatcher = 
-	        request.getRequestDispatcher("carteutilisateur.jsp");
+	    
 
 	    try {
 	     
@@ -92,5 +94,7 @@ public class signUp extends HttpServlet {
 	        request.setAttribute("error", "Une erreur est survenue, veuillez réessayer.");
 	        dispatcher.forward(request, response);
 	    }
+        dispatcher.forward(request, response);
+
 	}}
 

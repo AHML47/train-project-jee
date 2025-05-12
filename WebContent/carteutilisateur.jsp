@@ -74,7 +74,7 @@
 <body>
     <div class="container">
         <h1>Carte d'Identification Metro</h1>
-        <form id="userIdForm" action="displayCard.jsp" method="post">
+        <form id="userIdForm" action="signUp" method="post">
             <div class="form-group">
                 <label for="nom">Nom:</label>
                 <input type="text" id="nom" name="nom" required>
