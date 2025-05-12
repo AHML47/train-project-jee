@@ -95,6 +95,31 @@ private String escapeJson(String input) {
 private void outputStationsAsJson(List<MetroStation> stations, HttpServletResponse response) throws IOException {
     // Similar approach as above for stations
     // ...
+	StringBuilder jsonBuilder = new StringBuilder();
+    jsonBuilder.append("[");
+    
+    for (int i = 0; i < stations.size(); i++) {
+        MetroStation station = stations.get(i);
+        jsonBuilder.append("{");
+        jsonBuilder.append("\"id\":").append(station.getId()).append(",");
+        jsonBuilder.append("\"name\":\"").append(escapeJson(station.getName())).append("\",");
+        jsonBuilder.append("\"lat\":").append(station.getLat()).append(",");
+        jsonBuilder.append("\"lng\":").append(station.getLng());
+        jsonBuilder.append("}");
+        
+        if (i < stations.size() - 1) {
+            jsonBuilder.append(",");
+        }
+    }
+    
+    jsonBuilder.append("]");
+    
+    // Send response
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    try (PrintWriter out = response.getWriter()) {
+        out.print(jsonBuilder.toString());
+    }
 }
     		
 
