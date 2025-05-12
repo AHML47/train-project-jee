@@ -1,0 +1,20 @@
+{
+    "trains": [
+        {
+            "id": 101,
+            "line": "SahelLine",
+            "lat": 36.365,
+            "lng": 10.642,
+            "direction": -1,
+            "in_motion": true
+        },
+        {
+            "id": 102,
+            "line": "SahelLine",
+            "lat": 36.35,
+            "lng": 10.651,
+            "direction": 1,
+            "in_motion": true
+        }
+    ]
+}
