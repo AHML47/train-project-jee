@@ -39,8 +39,12 @@
         
         <div class="controls">
             <button id="refresh-btn" onclick="updateTrainPositions()">Refresh Positions</button>
-            <a href="signUp"><button class="login-btn">Carte d'Identification</button></a>
-        </div>
+            <a href="${buttonLink}">
+        <button class="login-btn">
+            ${buttonText != null ? buttonText : "Sign Up or Login"}
+        </button>
+    </a>
+        </div>
     </div>
     
     <script src="js/metro-map.js"></script>

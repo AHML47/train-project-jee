@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DB.UserDAO;
 import model.User;
@@ -87,6 +88,8 @@ RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.js
 	        
 	        UserDAO.registerUser(user);
 	        UserDAO.loginUser(user.getEmail(), user.getPassword());
+	        HttpSession session = request.getSession();
+	        session.setAttribute("user",user);
 
 
 	    } catch (Exception e) {

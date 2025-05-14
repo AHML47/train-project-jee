@@ -32,13 +32,36 @@ public class UserDAO {
         }
     }
 
-    /** Authentifie par email & mot de passe, retourne User complet ou null */
-    public static User loginUser(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
+    /** Authentifie par email & mot de passe, retourne User complet ou null 
+     * @throws SQLException */
+    public static User getLoginUser()  {
+    	String email=null;
+    	Connection conn=null;
+		try {
+			conn = DatabaseConnection.getConnection();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	String sql = "SELECT * FROM logedinuser ";
+        try (
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        	try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                	email=rs.getString("email");
+                }}} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            
+            
+            
+            
+         sql = "SELECT * FROM users WHERE email = ? ";
+        try (
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
+            
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     User u = new User();
@@ -65,15 +88,34 @@ public class UserDAO {
         }
         return null;
     }
+    public static boolean loginUser(String email, String password) {
+    	String sql="INSERT INTO logedinuser (email) VALUES (?) ";
+    	try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+               pstmt.setString(1, email);
+               try (ResultSet rs = pstmt.executeQuery()) {
+                   if (rs.next()) {
+                       
+                       
+                       
+                       
+                       return true;
+                   }
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+           return false;
+    }
     
 
     /**
      * Alias pour loginUser(), afin de respecter l�appel findByEmailAndPassword()
      */
     public static User findByEmailAndPassword(String email, String password) {
-        return loginUser(email, password);
+        return getLoginUser();
     }
-    public static void setUserLogedin()
+   // public static void setUserLogedin()
     public static User getLogedInUser() {
     	String sql = "SELECT * FROM logedinuser";
     	try (Connection conn = DatabaseConnection.getConnection();
