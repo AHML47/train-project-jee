@@ -12,32 +12,30 @@ import model.User;
 public class UserCardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    // On GET /user → show the form
+    // On GET /user → show the user card if logged in
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("/carteutilisateur.jsp");
-        rd.forward(req, resp);
+        // Get the logged-in user information from the database
+        User user = UserDAO.getLoginUser();
+        
+        if (user != null) {
+            // Set the user object as an attribute
+            req.setAttribute("user", user);
+            
+            // Forward to displayCard.jsp
+            RequestDispatcher rd = req.getRequestDispatcher("/displayCard.jsp");
+            rd.forward(req, resp);
+        } else {
+            // If no user is logged in, redirect to login page
+            resp.sendRedirect("carteutilisateur.jsp");
+        }
     }
 
-    // On POST /user → collect inputs, then show the card
+    // Handle POST requests the same way as GET
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
-    	User u= UserDAO.getLoginUser();
-    	RequestDispatcher rd = req.getRequestDispatcher("/displayCard.jsp");
-        // copy each form field into a request attribute
-        for (String field : new String[]{
-                "nom","prenom","email","tel","cin",
-                "direction","adresse","dob","cardNumber","password"
-        }) {
-            req.setAttribute(field, req.getParameter(field));
-           
-        }
-       
-        req.setAttribute("param", u);
-        // forward to displayUser.jsp
-        
-        rd.forward(req, resp);
+        doGet(req, resp);
     }
 }

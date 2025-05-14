@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import DB.UserDAO;
 import model.User;
@@ -24,37 +25,38 @@ public class wariLcarta extends HttpServlet {
      */
     public wariLcarta() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		User u= UserDAO.getLoginUser();
-    	RequestDispatcher rd = request.getRequestDispatcher("/displayCard.jsp");
-        // copy each form field into a request attribute
-        for (String field : new String[]{
-                "nom","prenom","email","tel","cin",
-                "direction","adresse","dob","cardNumber","password"
-        }) {
-        	request.setAttribute(field, request.getParameter(field));
-           
-        }
-       
-        request.setAttribute("param", u);
-        // forward to displayUser.jsp
-        
-        rd.forward(request, response);
+		// Get the user from the database or session
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		if (user == null) {
+		    // If no user in session, try to get from database
+		    user = UserDAO.getLoginUser();
+		}
+		
+		if (user != null) {
+		    // Set the user object as a request attribute
+		    request.setAttribute("user", user);
+		    
+		    // Forward to displayCard.jsp
+		    RequestDispatcher rd = request.getRequestDispatcher("/displayCard.jsp");
+		    rd.forward(request, response);
+		} else {
+		    // If no user found, redirect to login page
+		    response.sendRedirect("login");
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

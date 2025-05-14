@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Carte d'Identification Metro</title>
+    <title>Sign Up</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,7 +73,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Carte d'Identification Metro</h1>
+        <h1>Sing Up </h1>
         <form id="userIdForm" action="signUp" method="post">
             <div class="form-group">
                 <label for="nom">Nom:</label>

@@ -89,31 +89,49 @@ public class UserDAO {
         return null;
     }
     public static boolean loginUser(String email, String password) {
-    	String sql="INSERT INTO logedinuser (email) VALUES (?) ";
-    	try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-               pstmt.setString(1, email);
-               try (ResultSet rs = pstmt.executeQuery()) {
-                   if (rs.next()) {
-                       
-                       
-                       
-                       
-                       return true;
-                   }
-               }
-           } catch (SQLException e) {
-               e.printStackTrace();
-           }
-           return false;
+        // First, verify the user's credentials
+        String checkSql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+            checkStmt.setString(1, email);
+            checkStmt.setString(2, password);
+            
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next()) {
+                    // Credentials are valid, now update or insert into logedinuser
+                    
+                    // First clear the table to ensure only one user is logged in at a time
+                    String clearSql = "DELETE FROM logedinuser";
+                    try (PreparedStatement clearStmt = conn.prepareStatement(clearSql)) {
+                        clearStmt.executeUpdate();
+                    }
+                    
+                    // Now insert the current user's email
+                    String insertSql = "INSERT INTO logedinuser (email) VALUES (?)";
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                        insertStmt.setString(1, email);
+                        return insertStmt.executeUpdate() > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     
 
     /**
-     * Alias pour loginUser(), afin de respecter l�appel findByEmailAndPassword()
+     * Alias pour loginUser(), afin de respecter lappel findByEmailAndPassword()
      */
     public static User findByEmailAndPassword(String email, String password) {
-        return getLoginUser();
+        // First attempt to login the user
+        if (loginUser(email, password)) {
+            // If login successful, retrieve and return the user data
+            return getLoginUser();
+        }
+        // If login failed, return null
+        return null;
     }
    // public static void setUserLogedin()
     public static User getLogedInUser() {

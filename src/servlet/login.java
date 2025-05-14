@@ -23,14 +23,21 @@ public class login extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        // Attempt to authenticate and get user data in one step
         User user = UserDAO.findByEmailAndPassword(email, password);
 
         if (user != null) {
-            request.getSession().setAttribute("user", user);
-            response.sendRedirect("carteutilisateur.jsp");
+            // Set user in session
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            session.setAttribute("loggedIn", true);
+            
+            // Redirect to metro interface
+            response.sendRedirect("metroInterfaceS");
         } else {
+            // If login failed, show error message
             request.setAttribute("error", "Email ou mot de passe incorrect.");
-            request.getRequestDispatcher("metroInterfaceS").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 }

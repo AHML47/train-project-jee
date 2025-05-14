@@ -34,8 +34,7 @@ public class signUp extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.jsp");
-		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -46,59 +45,65 @@ RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.js
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 
-		RequestDispatcher dispatcher = 
-		        request.getRequestDispatcher("metroInterfaceS");
-	    String nom         = request.getParameter("nom");
-	    String prenom      = request.getParameter("prenom");
-	    String email       = request.getParameter("email");
-	    String tel         = request.getParameter("tel");
-	    String cin         = request.getParameter("cin");
-	    String direction   = request.getParameter("direction");
-	    String adresse     = request.getParameter("adresse");
-	    String dobParam    = request.getParameter("dob");         // "YYYY-MM-DD"
-	    String cardNumber  = request.getParameter("cardNumber");
-	    String password    = request.getParameter("password");
+		String nom         = request.getParameter("nom");
+		String prenom      = request.getParameter("prenom");
+		String email       = request.getParameter("email");
+		String tel         = request.getParameter("tel");
+		String cin         = request.getParameter("cin");
+		String direction   = request.getParameter("direction");
+		String adresse     = request.getParameter("adresse");
+		String dobParam    = request.getParameter("dob");         // "YYYY-MM-DD"
+		String cardNumber  = request.getParameter("cardNumber");
+		String password    = request.getParameter("password");
 
-	  
-	    
+		try {
+			// Check if email already exists
+			if (UserDAO.isEmailExists(email)) {
+				request.setAttribute("error", "Cette adresse e-mail est d√©j√† utilis√©e.");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
 
-	    try {
-	     
-	        if (UserDAO.isEmailExists(email)) {
-	            request.setAttribute("error", "Cette adresse e-mail est dÈj‡ utilisÈe.");
-	            dispatcher.forward(request, response);
-	            return;
-	        }
+			// Create user object
+			User user = new User();
+			user.setNom(nom);
+			user.setPrenom(prenom);
+			user.setEmail(email);
+			user.setTel(tel);
+			user.setCin(cin);
+			user.setDirection(direction);
+			user.setAdresse(adresse);
+			LocalDate dob = LocalDate.parse(dobParam);
+			user.setDob(dob);
+			user.setCardNumber(cardNumber);
+			user.setPassword(password);
 
-	   
-	        User user = new User();
-	        user.setNom(nom);
-	        user.setPrenom(prenom);
-	        user.setEmail(email);
-	        user.setTel(tel);
-	        user.setCin(cin);
-	        user.setDirection(direction);
-	        user.setAdresse(adresse);
-	 
-	        LocalDate dob = LocalDate.parse(dobParam);
-	        user.setDob(dob);
-	        user.setCardNumber(cardNumber);
-	        user.setPassword(password);
+			// Register the user
+			if (UserDAO.registerUser(user)) {
+				// Login the user (store email in logedinuser table)
+				if (UserDAO.loginUser(user.getEmail(), user.getPassword())) {
+					// Create session
+					HttpSession session = request.getSession();
+					session.setAttribute("user", user);
+					
+					// Redirect to the saveUser servlet to display the user card
+					response.sendRedirect("saveUser");
+					return;
+				}
+			}
+			
+			// If we get here, something went wrong with registration or login
+			request.setAttribute("error", "√âchec de l'enregistrement. Veuillez r√©essayer.");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.jsp");
+			dispatcher.forward(request, response);
 
-	        
-	        UserDAO.registerUser(user);
-	        UserDAO.loginUser(user.getEmail(), user.getPassword());
-	        HttpSession session = request.getSession();
-	        session.setAttribute("user",user);
-
-
-	    } catch (Exception e) {
-	        // 6) Log and show generic error
-	        e.printStackTrace();
-	        request.setAttribute("error", "Une erreur est survenue, veuillez rÈessayer.");
-	        dispatcher.forward(request, response);
-	    }
-        dispatcher.forward(request, response);
-
-	}}
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("error", "Une erreur est survenue, veuillez r√©essayer.");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("carteutilisateur.jsp");
+			dispatcher.forward(request, response);
+		}
+	}
+}
 

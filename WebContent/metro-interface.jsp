@@ -44,7 +44,7 @@
             ${buttonText != null ? buttonText : "Sign Up or Login"}
         </button>
     </a>
-        </div>
+        </div>
     </div>
     
     <script src="js/metro-map.js"></script>

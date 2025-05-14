@@ -33,21 +33,40 @@
             display: inline-block;
             width: 140px;
         }
+        .back-btn {
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <h2>Votre Carte Métro</h2>
-        <p><strong>Nom :</strong> ${param.nom}</p>
-        <p><strong>Prénom :</strong> ${param.prenom}</p>
-        <p><strong>Email :</strong> ${param.email}</p>
-        <p><strong>Téléphone :</strong> ${param.tel}</p>
-        <p><strong>CIN :</strong> ${param.cin}</p>
-        <p><strong>Direction :</strong> ${param.direction}</p>
-        <p><strong>Adresse :</strong> ${param.adresse}</p>
-        <p><strong>Date de Naissance :</strong> ${param.dob}</p>
-        <p><strong>Carte de Paiement :</strong> ${param.cardNumber}</p>
+        <p><strong>Nom :</strong> ${user.nom}</p>
+        <p><strong>Prénom :</strong> ${user.prenom}</p>
+        <p><strong>Email :</strong> ${user.email}</p>
+        <p><strong>Téléphone :</strong> ${user.tel}</p>
+        <p><strong>CIN :</strong> ${user.cin}</p>
+        <p><strong>Direction :</strong> ${user.direction}</p>
+        <p><strong>Adresse :</strong> ${user.adresse}</p>
+        <p><strong>Date de Naissance :</strong> ${user.dob}</p>
+        <p><strong>Carte de Paiement :</strong> ${user.cardNumber}</p>
         <!-- Omitting password display for security -->
+        
+        <a href="metroInterfaceS" class="back-btn">Retour au Tableau de Bord</a>
     </div>
 </body>
 </html>
