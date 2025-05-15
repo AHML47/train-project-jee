@@ -58,17 +58,15 @@
             height: 600px;
             overflow: hidden;
             border-radius: var(--radius-lg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #metro-map {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform var(--transition-normal);
-        }
-
-        #metro-map:hover {
-            transform: scale(1.02);
+            position: relative;
         }
 
         .map-controls {
@@ -254,6 +252,126 @@
             50% { box-shadow: 0 0 0 5px var(--primary-100); }
             100% { box-shadow: var(--shadow-lg); }
         }
+
+        /* Station and Train Markers - Add these styles */
+        .station-marker {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: var(--primary-600);
+            border-radius: 50%;
+            border: 3px solid white;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .station-marker:hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(255, 109, 0, 0.3), var(--shadow);
+        }
+
+        .station-marker.selected {
+            background-color: var(--error);
+            transform: translate(-50%, -50%) scale(1.5);
+            box-shadow: 0 0 0 4px rgba(255, 77, 79, 0.3);
+        }
+
+        .train-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--success);
+            border-radius: 50%;
+            border: 3px solid white;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            transition: transform 1s ease;
+        }
+
+        .train-marker.in-motion {
+            animation: trainPulse 1.5s infinite alternate;
+        }
+
+        .train-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            white-space: nowrap;
+            transform: translateY(-30px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        @keyframes trainPulse {
+            from {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 0 3px white, 0 0 10px rgba(0, 0, 0, 0.5);
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1.3);
+                box-shadow: 0 0 0 3px white, 0 0 20px rgba(0, 0, 0, 0.7);
+            }
+        }
+
+        .station-label {
+            position: absolute;
+            font-size: 11px;
+            white-space: nowrap;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transform: translate(-50%, 10px);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            z-index: 40;
+        }
+
+        .station-marker:hover + .station-label {
+            opacity: 1;
+            transform: translate(-50%, 15px);
+        }
+
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        #loading-indicator .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--neutral-300);
+            border-top: 4px solid var(--primary-600);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -293,6 +411,15 @@
                             <span>${buttonText != null ? buttonText : "Sign Up"}</span>
                         </button>
                     </a>
+                    
+                    <% if(session.getAttribute("user") != null) { %>
+                    <a href="logout">
+                        <button class="map-control-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </a>
+                    <% } %>
                 </div>
                 
                 <div class="map-legend">

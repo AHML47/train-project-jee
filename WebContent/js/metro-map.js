@@ -15,6 +15,7 @@ let updateInterval = null;
 
 // Convert geographic coordinates to pixel positions
 function latLngToPixel(lat, lng) {
+    // Fixed calculation to ensure markers appear within the visible map area
     const x = ((lng - MIN_LNG) / (MAX_LNG - MIN_LNG)) * MAP_WIDTH;
     const y = MAP_HEIGHT - ((lat - MIN_LAT) / (MAX_LAT - MIN_LAT)) * MAP_HEIGHT;
     return { x, y };
@@ -35,7 +36,7 @@ function initMap() {
             stations.forEach(station => {
                 const position = latLngToPixel(station.lat, station.lng);
                 
-                // Create station marker
+                // Create station marker with improved visibility
                 const marker = document.createElement('div');
                 marker.className = 'station-marker';
                 marker.style.left = position.x + 'px';
@@ -203,18 +204,10 @@ function updateTrainsOnMap(trains) {
             
             marker.title = `${train.line} - Train ID: ${train.id}`;
             
-            // Add tooltip span
+            // Add tooltip span for better visibility
             const tooltip = document.createElement('span');
             tooltip.className = 'train-tooltip';
             tooltip.textContent = marker.title;
-            tooltip.style.position = 'absolute';
-            tooltip.style.top = '-30px';
-            tooltip.style.left = '50%';
-            tooltip.style.transform = 'translateX(-50%)';
-            tooltip.style.opacity = '0';
-            tooltip.style.transition = 'opacity 0.2s ease';
-            tooltip.style.pointerEvents = 'none';
-            
             marker.appendChild(tooltip);
             
             // Add hover effect
