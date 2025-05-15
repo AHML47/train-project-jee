@@ -3,123 +3,233 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Sahel Metro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/metro-style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
+        .signup-container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 2rem auto;
             background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
-        h1 {
+        
+        .signup-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
             text-align: center;
-            color: #333;
-            margin-bottom: 30px;
         }
-        .form-group {
-            margin-bottom: 20px;
+        
+        .signup-form {
+            padding: 2rem;
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0;
         }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+        
+        .form-row .form-group {
+            flex: 1;
         }
+        
         .btn-container {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 2rem;
         }
-        .submit-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
+        
+        .input-icon {
+            position: relative;
         }
-        .submit-btn:hover {
-            background-color: #45a049;
+        
+        .input-icon i {
+            position: absolute;
+            left: 0.8rem;
+            top: 0.8rem;
+            color: var(--text-light);
         }
-        .return-link {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: #666;
-            text-decoration: none;
+        
+        .input-icon input {
+            padding-left: 2.5rem;
         }
-        .return-link:hover {
-            text-decoration: underline;
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="metroInterfaceS" class="logo">
+            <i class="fas fa-train"></i> Sahel Metro
+        </a>
+        <ul class="nav-links">
+            <li><a href="metroInterfaceS"><i class="fas fa-map-marked-alt"></i> Map</a></li>
+            <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="#"><i class="fas fa-phone"></i> Contact</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
-        <h1>Sing Up </h1>
-        <form id="userIdForm" action="signUp" method="post">
-            <div class="form-group">
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom" required>
+        <div class="signup-container">
+            <div class="signup-header">
+                <h1><i class="fas fa-user-plus"></i> Create Your Metro Account</h1>
+                <p>Fill in your details to register for a Metro card</p>
             </div>
-            <div class="form-group">
-                <label for="prenom">Prénom:</label>
-                <input type="text" id="prenom" name="prenom" required>
+            
+            <div class="signup-form">
+                <form id="userIdForm" action="signUp" method="post">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nom"><i class="fas fa-user"></i> Nom</label>
+                            <div class="input-icon">
+                                <i class="fas fa-user form-icon"></i>
+                                <input type="text" id="nom" name="nom" class="auth-input" placeholder="Votre nom" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom"><i class="fas fa-user"></i> Prénom</label>
+                            <div class="input-icon">
+                                <i class="fas fa-user form-icon"></i>
+                                <input type="text" id="prenom" name="prenom" class="auth-input" placeholder="Votre prénom" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope form-icon"></i>
+                                <input type="email" id="email" name="email" class="auth-input" placeholder="exemple@email.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tel"><i class="fas fa-phone"></i> Numéro de Téléphone</label>
+                            <div class="input-icon">
+                                <i class="fas fa-phone form-icon"></i>
+                                <input type="tel" id="tel" name="tel" class="auth-input" placeholder="Votre numéro de téléphone" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cin"><i class="fas fa-id-badge"></i> CIN</label>
+                            <div class="input-icon">
+                                <i class="fas fa-id-badge form-icon"></i>
+                                <input type="text" id="cin" name="cin" class="auth-input" placeholder="Numéro de CIN" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="direction"><i class="fas fa-compass"></i> Direction</label>
+                            <div class="input-icon">
+                                <i class="fas fa-compass form-icon"></i>
+                                <input type="text" id="direction" name="direction" class="auth-input" placeholder="Votre direction" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adresse"><i class="fas fa-map-marker-alt"></i> Adresse</label>
+                        <div class="input-icon">
+                            <i class="fas fa-map-marker-alt form-icon"></i>
+                            <input type="text" id="adresse" name="adresse" class="auth-input" placeholder="Votre adresse complète" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dob"><i class="fas fa-birthday-cake"></i> Date de Naissance</label>
+                            <div class="input-icon">
+                                <i class="fas fa-birthday-cake form-icon"></i>
+                                <input type="date" id="dob" name="dob" class="auth-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber"><i class="fas fa-credit-card"></i> Numéro Carte de Paiement</label>
+                            <div class="input-icon">
+                                <i class="fas fa-credit-card form-icon"></i>
+                                <input type="text" id="cardNumber" name="cardNumber" class="auth-input" placeholder="Numéro de votre carte" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Mot de Passe</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock form-icon"></i>
+                            <input type="password" id="password" name="password" class="auth-input" placeholder="Choisissez un mot de passe sécurisé" required>
+                        </div>
+                    </div>
+                    
+                    <div id="error-container" class="error-message" style="display: none;"></div>
+                    
+                    <div class="btn-container">
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-user-plus"></i> S'inscrire
+                        </button>
+                    </div>
+                    
+                    <div class="auth-links" style="text-align: center; margin-top: 1rem;">
+                        <p>Déjà inscrit? <a href="login">Connectez-vous</a></p>
+                        <p><a href="metroInterfaceS"><i class="fas fa-arrow-left"></i> Retour à la carte du métro</a></p>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="tel">Numéro de Téléphone:</label>
-                <input type="tel" id="tel" name="tel" required>
-            </div>
-            <div class="form-group">
-                <label for="cin">CIN (Carte d'Identité Nationale):</label>
-                <input type="text" id="cin" name="cin" required>
-            </div>
-            <div class="form-group">
-                <label for="direction">Direction:</label>
-                <input type="text" id="direction" name="direction" required>
-            </div>
-            <div class="form-group">
-                <label for="adresse">Adresse:</label>
-                <input type="text" id="adresse" name="adresse" required>
-            </div>
-            <div class="form-group">
-                <label for="dob">Date de Naissance:</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="cardNumber">Numéro Carte de Paiement:</label>
-                <input type="text" id="cardNumber" name="cardNumber" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Mot de Passe:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="btn-container">
-                <button type="submit" class="submit-btn">Enregistrer</button>
-            </div>
-        </form>
-        <a href="metro-interface.jsp" class="return-link">Retour à la carte du métro</a>
+        </div>
     </div>
+    
+    <footer class="footer">
+        <p>&copy; 2024 Sahel Metro Tracking System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('userIdForm');
+            const errorContainer = document.getElementById('error-container');
+            
+            form.addEventListener('submit', function(e) {
+                let hasError = false;
+                errorContainer.innerHTML = '';
+                errorContainer.style.display = 'none';
+                
+                // Basic validation
+                const password = document.getElementById('password').value;
+                if (password.length < 6) {
+                    showError('Le mot de passe doit contenir au moins 6 caractères');
+                    hasError = true;
+                }
+                
+                const email = document.getElementById('email').value;
+                if (!validateEmail(email)) {
+                    showError('Veuillez entrer une adresse email valide');
+                    hasError = true;
+                }
+                
+                if (hasError) {
+                    e.preventDefault();
+                }
+            });
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            function showError(message) {
+                errorContainer.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+                errorContainer.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

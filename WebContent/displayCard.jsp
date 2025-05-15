@@ -3,70 +3,95 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Affichage Carte Utilisateur</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eaeaea;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .card {
-            background: #fff;
-            width: 400px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .card h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .card p {
-            margin: 8px 0;
-        }
-        .card strong {
-            display: inline-block;
-            width: 140px;
-        }
-        .back-btn {
-            display: block;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 20px;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .back-btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte Utilisateur - Sahel Metro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/metro-style.css">
 </head>
 <body>
-    <div class="card">
-        <h2>Votre Carte Métro</h2>
-        <p><strong>Nom :</strong> ${user.nom}</p>
-        <p><strong>Prénom :</strong> ${user.prenom}</p>
-        <p><strong>Email :</strong> ${user.email}</p>
-        <p><strong>Téléphone :</strong> ${user.tel}</p>
-        <p><strong>CIN :</strong> ${user.cin}</p>
-        <p><strong>Direction :</strong> ${user.direction}</p>
-        <p><strong>Adresse :</strong> ${user.adresse}</p>
-        <p><strong>Date de Naissance :</strong> ${user.dob}</p>
-        <p><strong>Carte de Paiement :</strong> ${user.cardNumber}</p>
-        <!-- Omitting password display for security -->
-        
-        <a href="metroInterfaceS" class="back-btn">Retour au Tableau de Bord</a>
+    <nav class="navbar">
+        <a href="metroInterfaceS" class="logo">
+            <i class="fas fa-train"></i> Sahel Metro
+        </a>
+        <ul class="nav-links">
+            <li><a href="metroInterfaceS"><i class="fas fa-map-marked-alt"></i> Map</a></li>
+            <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="#"><i class="fas fa-phone"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="user-card-container">
+            <div class="card user-card">
+                <div class="user-card-header">
+                    <div class="profile-img">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>${user.prenom} ${user.nom}</h2>
+                    <p><i class="fas fa-id-card"></i> Metro User Card</p>
+                </div>
+                
+                <div class="user-card-body">
+                    <div class="user-detail">
+                        <strong><i class="fas fa-user"></i> Nom:</strong>
+                        <span>${user.nom}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-user"></i> Prénom:</strong>
+                        <span>${user.prenom}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-envelope"></i> Email:</strong>
+                        <span>${user.email}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-phone"></i> Téléphone:</strong>
+                        <span>${user.tel}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-id-badge"></i> CIN:</strong>
+                        <span>${user.cin}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-building"></i> Direction:</strong>
+                        <span>${user.direction}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-map-marker-alt"></i> Adresse:</strong>
+                        <span>${user.adresse}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-birthday-cake"></i> Date de Naissance:</strong>
+                        <span>${user.dob}</span>
+                    </div>
+                    
+                    <div class="user-detail">
+                        <strong><i class="fas fa-credit-card"></i> Carte de Paiement:</strong>
+                        <span>${user.cardNumber}</span>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <a href="metroInterfaceS" class="btn">
+                            <i class="fas fa-map-marked-alt"></i> Tableau de Bord
+                        </a>
+                        <a href="logout" class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <footer class="footer">
+        <p>&copy; 2024 Sahel Metro Tracking System. All rights reserved.</p>
+    </footer>
 </body>
 </html>
